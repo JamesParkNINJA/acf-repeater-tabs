@@ -17,9 +17,6 @@ function jpn_acf_tabs_admin_enqueue_scripts( $hook_suffix ) {
     // Enqueues jQuery
     wp_enqueue_script('jquery');
     
-    // This will enqueue the Media Uploader script
-    wp_enqueue_media();
-    
     wp_enqueue_style( 'jpn_acf_tabs_styles', plugins_url('css/jpn_acf_tabs.css', __FILE__ ), array(), '1.0.0', false);
     wp_enqueue_script( 'jpn_acf_tabs_scripts', plugins_url('js/jpn_acf_tabs.js', __FILE__ ), array(), '1.0.0', false);
 }
