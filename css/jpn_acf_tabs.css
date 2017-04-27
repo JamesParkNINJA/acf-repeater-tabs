@@ -1,0 +1,72 @@
+.jpn-active {
+    padding-left: 96px;
+    position: relative;
+}
+
+.jpn-active td.acf-row-handle.order, .jpn-active .acf-row-handle.remove .acf-icon.-plus.small {
+    display:none;
+}
+
+.jpn-active .acf-row:not(.active) { 
+    display:none; 
+}
+
+.jpn-active div[id^="jpn-acf-tabs-"] {
+    width: 96px;
+    min-height: 20px;
+    background: #f5f5f5;
+    box-sizing:border-box;
+    display:table;    
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.jpn-active .jpn-acf-tab, .jpn-active .add .acf-button  {
+    height: 30px;
+    display: block;
+    line-height: 30px;
+    font-size: 12px;
+    color: #666666;
+    padding: 0;
+    text-decoration: none;
+    background:#eaeaea;
+    transition:0.3s all;
+    width: 96px;
+    text-align: center;
+}
+
+.jpn-active .jpn-acf-tabs .jpn-acf-tab {
+    border-bottom:1px solid #d4d4d4;
+}
+
+.jpn-active .jpn-acf-tab:hover {
+    color:#3b3b3b;
+    background:#d4d4d4;
+}
+
+.jpn-active .jpn-acf-tab.active {
+    color:#ffffff;
+    background:#00a0d2;
+}
+
+.jpn-active .add .acf-button {
+    color:#ffffff;
+    background:#1d6977;
+}
+
+.jpn-active .jpn-acf-tab:focus {
+    box-shadow:none !important;
+}
+
+.jpn-active .jpn-acf-tab.active {
+    border-bottom:1px solid #2b89a7;
+}
+
+.jpn-active .acf-table {
+    border: #00a0d2 solid 1px;
+}
+
+.jpn-active .acf-repeater.-row > table > tbody > tr > td, .jpn-active .acf-repeater.-block > table > tbody > tr > td {
+    border-top:none;
+}
