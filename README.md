@@ -5,6 +5,8 @@ Currently works with: ACF PRO
 
 ## Using the plugin
 
+### WARNING: There are a few bugs currently being worked on, foremost being nested repeaters not tabbing correctly. Will wupdate asap.
+
 The plugin extends repeaters following the "Block" styling.
 
 Simply install and activate, the plugin will detect any repeater rows using "Block".
