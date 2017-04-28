@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+    
     // Double checks the loaded admin page has any ACF Repeaters with the Block style selected
     if ($('.acf-repeater.-block').length > 0) { 
     
@@ -15,7 +16,7 @@ jQuery(document).ready(function ($) {
         }
 
         // Main function
-        function jpn_acf_tabs(block, newrow = false) {
+        function jpn_acf_tabs(block = false, newrow = false) {
             // Initialises the count
             var jpn_acf_tab_count = 0;
             
@@ -61,7 +62,7 @@ jQuery(document).ready(function ($) {
                         num = parseInt(num);
                     
                     // If the function is passed through with "last" it activates the new row, rather than the first, by default
-                    if (newrow == 'last' && jpn_acf_tab_count == block) { var activeNum = tabCount; } else { var activeNum = 1; }
+                    if (newrow == 'last') { var activeNum = tabCount; } else { var activeNum = 1; }
                     if (num == activeNum) { 
                         var css = ' active'; jpn_deactivate(jpn_acf_tab_count); $(this).addClass('active'); 
                     } else { var css = ''; }
@@ -87,13 +88,8 @@ jQuery(document).ready(function ($) {
 
         $(document).on('click', '.jpn-active a[data-event="add-row"]', function(e) {
             // Regenerates tabs when a row is added
-            if ($(this).closest('div').parent().hasClass('jpn-acf-tabs')) {
-                var id = $(this).closest('div').parent().parent().attr('data-jpn');
-            } else {
-                var id = $(this).closest('div').parent().attr('data-jpn');
-            }
-            console.log(id);
-            setTimeout(jpn_acf_tabs(id,'last'), 100);
+            var id = $(this).closest('div').find('.jpn-active').attr('data-jpn');
+            setTimeout(jpn_acf_tabs(id, 'last'), 100);
         });
 
         $(document).on('click', '.jpn-active a[data-event="remove-row"]', function(e) {
