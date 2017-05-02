@@ -1,3 +1,20 @@
+(function () {
+    this.jpnuniqid = function (pr, en) {
+        var pr = pr || '', en = en || false, result;
+
+        this.seed = function (s, w) {
+        s = parseInt(s, 10).toString(16);
+        return w < s.length ? s.slice(s.length - w) : (w > s.length) ? new Array(1 + (w - s.length)).join('0') + s : s;
+        };
+
+        result = pr + this.seed(parseInt(new Date().getTime() / 1000, 10), 8) + this.seed(Math.floor(Math.random() * 0x75bcd15) + 1, 5);
+
+        if (en) result += (Math.random() * 10).toFixed(8).toString();
+
+        return result;
+    };
+})();
+
 jQuery(document).ready(function ($) {
     
     // Double checks the loaded admin page has any ACF Repeaters with the Block style selected
@@ -6,69 +23,104 @@ jQuery(document).ready(function ($) {
         // Deactivates all of the active tabs within the selected data attribute container
         function jpn_deactivate(id) {
             $('[data-jpn="'+id+'"] > table > tbody > tr.acf-row.active').removeClass('active');
-            $('[data-jpn="'+id+'"] > #jpn-acf-tabs-'+id+' .jpn-acf-tab.active').removeClass('active');
+            $('[data-jpn="'+id+'"] > #jpn-acf-tabs-'+id+' > .nav > .jpn-acf-tab.active').removeClass('active');
         }
 
         // Activates the selected tab within the selected data attribute container
         function jpn_activate(el, id) {
             el.addClass('active');
-            $('[data-id="'+id+'"]').addClass('active');
+            $('[data-jpn-tab-id="'+id+'"]').addClass('active');
         }
 
         // Main function
-        function jpn_acf_tabs(block = false, newrow = false) {
-            // Initialises the count
-            var jpn_acf_tab_count = 0;
+        function jpn_acf_tabs(add = false, newrow = false, parent = false) {
             
             // Removes the existing tabs so it can regenerate them
             $(document).find('.jpn-acf-tabs').remove();
 
             // Adds the activation class to the parent block
             $('.acf-repeater.-block:not(.jpn-active)').addClass('jpn-active');
+            
+            var blockArray = new Array();
 
-            $('.jpn-active').each(function() {
+            $('.acf-repeater.-block').each(function() {
                 
-                // Increment parent repeater field count
-                jpn_acf_tab_count++;
-                
-                // Applies the count as a unique data attribute to both the container and the "Add Row" button
-                $(this).attr('data-jpn',jpn_acf_tab_count);
-                $('[data-jpn="'+jpn_acf_tab_count+'"] > .acf-actions .acf-button.button.button-primary[data-event="add-row"]').attr('data-jpn',jpn_acf_tab_count); 
-                
+                // Initialises the uniqid
+                var isUnique = false;
+                if ($(this).attr('data-jpn') && $(this).attr('data-jpn') != '') {
+                    if (!blockArray.includes($(this).attr('data-jpn'))) {
+                        var jpn = $(this).attr('data-jpn');
+                        blockArray.push(jpn);
+                        isUnique = true;
+                    }
+                }                
+                if (isUnique == false) {
+                    // Applies the count as a unique data attribute to both the container and the "Add Row" button
+                    var jpn = jpnuniqid('block_');
+                    blockArray.push(jpn);
+                    $(this).attr('data-jpn',jpn);
+                }
+
+                $('[data-jpn="'+jpn+'"] > .acf-actions > li > .acf-button.button.button-primary[data-event="add-row"]').attr('data-jpn-button',jpn); 
+                $('[data-jpn="'+jpn+'"] > table > tbody > tr > td.remove > a[data-event="remove-row"]').attr('data-jpn-button',jpn); 
+
                 // | Variables |
                 // tabCount: Number of rows in this repeater field.
                 // cta: Gets the name of the field rows, if custom. If it doesn't use "Add" as a prefix, adds it in.
                 // text: Same as "cta" but without "Add".
                 // minHeight: Due to the tabs being absolute, this is applied to the container element to stop overflow.
-                var tabCount = $('[data-jpn="'+jpn_acf_tab_count+'"] .acf-row:not(.acf-clone)').length,
-                    cta = $('[data-jpn="'+jpn_acf_tab_count+'"] > .acf-actions .acf-button.button.button-primary[data-event="add-row"]').text(),
-                    cta = (cta.includes('Add ') ? cta : 'Add '+cta),
+                var tabCount = $('[data-jpn="'+jpn+'"] > table > tbody > tr.acf-row:not(.acf-clone)').length,
+                    cta = $('[data-jpn="'+jpn+'"] > .acf-actions > li > .acf-button.button.button-primary[data-event="add-row"]').first().text(),
                     text = cta.replace('Add ','')+' ',
                     minHeight = (tabCount * 31) + 31;
+                    cta = (cta.includes('Add') ? cta : 'Add '+cta);
 
                 // Applies the minHeight value to the parent container
                 $(this).css('min-height', minHeight+'px');
-                
+
                 // Adds in the empty tabs container and new "Add Row" button
-                $(this).prepend('<div class="jpn-acf-tabs" id="jpn-acf-tabs-'+jpn_acf_tab_count+'"><div class="nav"></div><div class="add"><a class="acf-button" href="#" data-event="add-row">'+cta+'</a></div></div>');
-                
+                $(this).prepend('<div class="jpn-acf-tabs" id="jpn-acf-tabs-'+jpn+'"><div class="nav"></div><div class="add"><a class="acf-button" href="#" data-event="add-row" data-jpn-button="'+jpn+'">'+cta+'</a></div></div>');
+
                 // For every repeater row in this container...
-                $('[data-jpn="'+jpn_acf_tab_count+'"] > table > tbody > tr.acf-row:not(.acf-clone)').each(function() { 
+                var rowArray = new Array();
+                $('[data-jpn="'+jpn+'"] > table > tbody > tr.acf-row:not(.acf-clone)').each(function() {
                     // | Variables |
                     // id: the ACF data ID for the row
                     // num: the ACF row number, which is then parsed as an integer
-                    var id = $(this).attr('data-id'), 
+                    var id = $(this).attr('data-id'),
+                        unq = jpnuniqid(id+'_'),
                         num = $('[data-id="'+id+'"] > .acf-row-handle.order > span').text(); 
                         num = parseInt(num);
                     
+                    var isUnique = false;
+                    if ($(this).attr('data-jpn-tab-id') && $(this).attr('data-jpn-tab-id') != '') {
+                        if (!rowArray.includes($(this).attr('data-jpn-tab-id'))) {
+                            var tabID = $(this).attr('data-jpn-tab-id');
+                            rowArray.push(tabID);
+                            isUnique = true;
+                        }
+                    }
+                    if (isUnique == false) {
+                        var tabID = unq;
+                        rowArray.push(tabID);
+                        $(this).attr('data-jpn-tab-id', unq);
+                    }
+
                     // If the function is passed through with "last" it activates the new row, rather than the first, by default
-                    if (newrow == 'last') { var activeNum = tabCount; } else { var activeNum = 1; }
+                    if (newrow == 'last' && jpn == add) { 
+                        var activeNum = tabCount; 
+                    } else if (parent && parent[1] == jpn && parent[0] == tabID) {
+                        var activeNum = num;
+                    } else { 
+                        var activeNum = 1; 
+                    }
+                        
                     if (num == activeNum) { 
-                        var css = ' active'; jpn_deactivate(jpn_acf_tab_count); $(this).addClass('active'); 
+                        var css = ' active'; jpn_deactivate(jpn); $(this).addClass('active'); 
                     } else { var css = ''; }
-                    
+
                     // Adds the Row's tab link to the empty tab container
-                    $(this).parent().parent().parent().find('.jpn-acf-tabs .nav').append('<a href="'+id+'" class="jpn-acf-tab'+css+'" data-jpn="'+jpn_acf_tab_count+'">'+text+num+'</a>');
+                    $('[data-jpn="'+jpn+'"] > .jpn-acf-tabs .nav').append('<a href="'+tabID+'" class="jpn-acf-tab'+css+'" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">'+text+num+'</a>');
                 });
             });
         }
@@ -76,9 +128,9 @@ jQuery(document).ready(function ($) {
         // On tab link click...
         $(document).on('click','.jpn-acf-tab', function(e) {
             e.preventDefault(); 
-            var id = $(this).attr('href'), 
+            var id = $(this).attr('href'),
                 active = ($(this).hasClass('active') ? true : false), 
-                jpn = $(this).attr('data-jpn');
+                jpn = $(this).attr('data-jpn-nav');
             
             if (!active) {
                 jpn_deactivate(jpn); // Hide previous active tab
@@ -88,13 +140,25 @@ jQuery(document).ready(function ($) {
 
         $(document).on('click', '.jpn-active a[data-event="add-row"]', function(e) {
             // Regenerates tabs when a row is added
-            var id = $(this).closest('div').find('.jpn-active').attr('data-jpn');
-            setTimeout(jpn_acf_tabs(id, 'last'), 100);
+            var id = $(this).attr('data-jpn-button');
+            if ($('[data-jpn="'+id+'"]').parents('.acf-repeater.-block').length >= 1) {
+                var pID = $('[data-jpn="'+id+'"]').parent().parent().parent().parent().parent().parent().parent().attr('data-jpn'),
+                    tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav').find('.active').attr('data-jpn-tab'),
+                    parent = [tab, pID];
+                
+                setTimeout(jpn_acf_tabs(id, 'last', parent), 100);
+            } else {
+                setTimeout(jpn_acf_tabs(id, 'last'), 100);
+            }
         });
 
         $(document).on('click', '.jpn-active a[data-event="remove-row"]', function(e) {
             // Regenerates tabs when a row is removed
-            setTimeout(function(){ jpn_acf_tabs(); }, 550);
+            var id = $(this).attr('data-jpn-button');
+            if ($('[data-jpn="'+id+'"]').parents('.jpn-active').length >= 1) {
+                var parent = $('[data-jpn="'+id+'"]').parent().closest('.jpn-active.-block').attr('data-jpn');
+            } else { var parent = false; }
+            setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 550);
         });
 
         // Delayed initilisation to prefent loading before ACF
