@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: ACF - Repeater Field Tabs
-Plugin URI:  http://jamespark.ninja
+Plugin URI:  https://github.com/JamesParkNINJA/acf-repeater-tabs
 Description: Adds "tab" functionality to ACF Repeater Fields
 Version:     2.5
 Author:      JamesPark.ninja
@@ -10,6 +10,7 @@ License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: acf-repeater-tabs
 Domain Path: /languages
+GitHub Plugin URI: JamesParkNINJA/acf-repeater-tabs
 */
 
 add_action( 'admin_enqueue_scripts', 'jpn_acf_tabs_admin_enqueue_scripts' );
