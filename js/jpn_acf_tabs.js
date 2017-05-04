@@ -104,7 +104,7 @@ jQuery(document).ready(function ($) {
                 $(this).css('min-height', minHeight+'px');
 
                 // Adds in the empty tabs container and new "Add Row" button
-                $(this).prepend('<div class="jpn-acf-tabs" id="jpn-acf-tabs-'+jpn+'"><div class="nav"><ul id="nav_'+jpn+'"></div><div class="add"><a class="jpn-tab-button acf-button" href="#" data-event="add-row" data-jpn-button="'+jpn+'">'+cta+'</a></div></div>');
+                $(this).prepend('<div class="jpn-acf-tabs" id="jpn-acf-tabs-'+jpn+'"><div class="nav"><ul id="nav_'+jpn+'"></div><div class="add"><a class="jpn-tab-button acf-button" href="#" data-event="add-row" data-jpn-button="'+jpn+'"><span class="dashicons dashicons-plus-alt"></span></a></div></div>');
 
                 // For every repeater row in this container...
                 var rowArray = new Array(), height = 0, index = 0;
@@ -149,7 +149,7 @@ jQuery(document).ready(function ($) {
                     } else { var css = ''; }
 
                     // Adds the Row's tab link to the empty tab container
-                    $('[data-jpn="'+jpn+'"] > .jpn-acf-tabs > .nav > ul').append('<li data-jpn-index="'+index+'" data-jpn-tab-div="'+tabID+'" class="jpn-acf-tab-div"><a href="'+tabID+'" class="jpn-acf-tab'+css+'" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">'+text+num+'</a></li>');
+                    $('[data-jpn="'+jpn+'"] > .jpn-acf-tabs > .nav > ul').append('<li data-jpn-index="'+index+'" data-jpn-tab-div="'+tabID+'" class="jpn-acf-tab-div"><a href="'+tabID+'" class="jpn-acf-tab'+css+'" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'"><span>'+num+'</span></a></li>');
                     
                     /* <a href="#" class="jpn-move" data-jpn-dir="up" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">&#9652;</a><a href="#" class="jpn-move" data-jpn-dir="down" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">&#9662;</a> */
                     

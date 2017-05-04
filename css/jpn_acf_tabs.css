@@ -1,5 +1,5 @@
 .jpn-tabs-activated {
-    padding-left: 96px;
+    padding-left: 45px;
     position: relative;
 }
 
@@ -89,10 +89,46 @@
     color: #666666;
     padding: 0;
     text-decoration: none;
-    background:#eaeaea;
-    transition:0.3s all;
-    width: 96px;
+    background: #eaeaea;
+    transition: 0.3s all;
+    width: 45px;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.jpn-tabs-activated > .jpn-acf-tabs > .add > .acf-button  {
+    line-height: normal;
+    padding: 6px;
     text-align: center;
+}
+
+.jpn-tabs-activated > .jpn-acf-tabs > .nav > ul > li > .jpn-acf-tab {
+    padding-left:30px;
+}
+
+.jpn-tabs-activated > .jpn-acf-tabs > .nav > ul > li > .jpn-acf-tab > span  {
+    border-radius: 50%;
+    min-width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    background: #95c6e5;
+    color: #355f79;
+    font-weight: bold;
+    text-align: center;
+    font-size: 12px;
+    line-height: 20px;
+    pointer-events: none;
+    transform: translateX(-50%);
+}
+
+
+.jpn-tabs-activated > .jpn-acf-tabs > .nav > ul > li > .jpn-acf-tab.active > span  {
+    color: #355f79;
+    background: #ffffff;
 }
 
 .jpn-tabs-activated > .jpn-acf-tabs > .nav > ul > li > .jpn-acf-tab {
