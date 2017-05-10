@@ -206,8 +206,18 @@ jQuery(document).ready(function ($) {
         
         $(document).on('mousewheel', '.jpn-tabs-activated.jpn-horizontal > .jpn-acf-tabs > .nav', function(e) {
             e.preventDefault();
-            var dir = (e.deltaY < 0 ? 1 : -1);
-            $(this).scrollLeft(dir * 45);
+            if (!$(this).attr('data-scroll')) { $(this).attr('data-scroll', 0); }
+            var scroll = +$(this).attr('data-scroll'), 
+                delta = ~e.deltaY+1,
+                dir = scroll + delta,
+                navW = +$(this).width(),
+                ulW = $(this).find('ul li').length * 45;
+            
+            if (((dir*45) <= (ulW - navW)) && dir >= 0) { 
+                $(this).scrollLeft(dir * 45); 
+                $(this).attr('data-scroll',dir); 
+            }
+            
         });
 
         $(document).on('click', '.jpn-tabs-activated a[data-event="remove-row"].jpn-tab-button', function(e) {
