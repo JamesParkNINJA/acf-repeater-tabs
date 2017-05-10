@@ -1,5 +1,5 @@
 # acf-repeater-tabs
-## v2.5
+## v2.7
 A tabbed-view extension to Advanced Custom Field PRO's repeater fields
 
 Stable compatibility: ACF PRO v5.5.12
@@ -8,7 +8,9 @@ Stable compatibility: ACF PRO v5.5.12
 
 The plugin extends the ACF Pro Repeaters Fields.
 
-Once you have installed and activated, you will find a new checkbox when setting up your repeater fields called **"Activate Repeater Tabs"**.
+Once you have installed and activated, you will find a new radio field when setting up your repeater fields called **"Activate Repeater Tabs"**.
+
+You can either leave this off, or turn it on for Horizontal, or Vertical layout tabs.
 
 Turn this on, and the repeater tabs will appear for this field.
 
