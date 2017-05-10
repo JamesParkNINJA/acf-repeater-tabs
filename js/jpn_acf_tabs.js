@@ -288,7 +288,7 @@ jQuery(document).ready(function ($) {
             
         });      
 
-        // Delayed initilisation to prefent loading before ACF
+        // Delayed initialisation to prevent loading before ACF
         acf.add_action('ready', function( $el ){ jpn_acf_tabs(); });
     }
 });
