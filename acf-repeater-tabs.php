@@ -3,13 +3,14 @@
 Plugin Name: ACF - Repeater Field Tabs
 Plugin URI:  http://jamespark.ninja
 Description: Adds "tab" functionality to ACF Repeater Fields
-Version:     2.7
+Version:     3.0
 Author:      JamesPark.ninja
 Author URI:  http://jamespark.ninja/
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: acf-repeater-tabs
 Domain Path: /languages
+GitHub Plugin URI: JamesParkNINJA/acf-repeater-tabs
 */
 
 add_action( 'admin_enqueue_scripts', 'jpn_acf_tabs_admin_enqueue_scripts' );
@@ -33,8 +34,8 @@ function jpn_acf_tabs_settings( $field ) {
         'layout'        => 'horizontal',
 		'choices'       => array(
 			false => __('Off'),
-			'horizontal' => __('Horizontal'),
-			'vertical' => __('Vertical')
+			'vertical' => __('Vertical'),
+			/* 'horizontal' => __('Horizontal') DISABLED DUE TO STYLING CONFLICTS */
 		)
 	), true);
 	
