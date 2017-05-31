@@ -311,6 +311,8 @@ jQuery(document).ready(function ($) {
                 $(this).remove();
             });
             
+            $('[data-jpn="'+id+'"] > div.acf-repeater').slideUp('fast',function(){$(this).addClass('.-empty');});
+            
             setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 550);
         });
         

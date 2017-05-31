@@ -1,5 +1,5 @@
 # acf-repeater-tabs
-## v3.5
+## v3.6
 A tabbed-view extension to Advanced Custom Field PRO's repeater fields
 
 Stable compatibility: ACF PRO v5.5.12 +

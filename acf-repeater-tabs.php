@@ -3,7 +3,7 @@
 Plugin Name: ACF - Repeater Field Tabs
 Plugin URI:  http://jamespark.ninja
 Description: Adds "tab" functionality to ACF Repeater Fields
-Version:     3.5
+Version:     3.6
 Author:      JamesPark.ninja
 Author URI:  http://jamespark.ninja/
 License:     GPL2
