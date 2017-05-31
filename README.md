@@ -1,5 +1,5 @@
 # acf-repeater-tabs
-## v3.0
+## v3.5
 A tabbed-view extension to Advanced Custom Field PRO's repeater fields
 
 Stable compatibility: ACF PRO v5.5.12 +
@@ -18,9 +18,13 @@ Turn this on, and the repeater tabs will appear for this field.
 
 Drag and drop the tabs to reorder.
 
-Hover for half a second, and you will be given the option to "Copy" the current tab, duplicating it and it's contents to a new row at the bottom of your repeater list.
+Click the trash can icon to remove the current tab, and the plus icon to add a new one (as per ACF functionality).
 
-This works best with the **"Block"** view, however works with all three (Table, Block, Row).
+Hover for half a second on a tab and you will be given the option to "Copy" the tab, duplicating it and it's contents to a new row at the bottom of your repeater list.
+
+Hover for half a second on the trash can icon, and you will be given the option to remove "ALL ROWS" in the current repeater list with one click.
+
+This plugin works best with the **"Block"** view, however it does work with all three styles (Table, Block, Row).
 
 ## Authors
 

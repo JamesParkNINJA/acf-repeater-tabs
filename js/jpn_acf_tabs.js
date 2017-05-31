@@ -42,7 +42,7 @@
     };
 })(jQuery);
 
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function ($) {   
     
     // Double checks the loaded admin page has any ACF Repeaters with the Block style selected
     if ($('.jpn-tabs-activated > .acf-repeater').length > 0) { 
@@ -74,7 +74,7 @@ jQuery(document).ready(function ($) {
 
             $('.jpn-tabs-activated').each(function() {
                 
-                // Initialises the jpnuniqid
+                // Initialises the unique id
                 var isUnique = false;
                 if ($(this).attr('data-jpn') && $(this).attr('data-jpn') != '') {
                     if (!blockArray.includes($(this).attr('data-jpn'))) {
@@ -110,7 +110,7 @@ jQuery(document).ready(function ($) {
                 var tabCount = $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr.acf-row:not(.acf-clone)').length,
                     cta = $('[data-jpn="'+jpn+'"] > .acf-repeater > .acf-actions > li > .acf-button.button.button-primary[data-event="add-row"]').first().text(),
                     text = cta.replace('Add ','')+' ',
-                    minHeight = (tabCount * 37) + 37;
+                    minHeight = (tabCount * 37) + 37 + 37;
                     cta = (cta.includes('Add') ? cta : 'Add '+cta);
 
                 // Applies the minHeight value to the parent container
@@ -119,7 +119,7 @@ jQuery(document).ready(function ($) {
 				}
 
                 // Adds in the empty tabs container and new "Add Row" button
-                $(this).prepend('<div class="jpn-acf-tabs" id="jpn-acf-tabs-'+jpn+'"><div class="nav"><ul id="nav_'+jpn+'"></div><div class="add"><a class="jpn-tab-button acf-button" href="#" data-event="add-row" data-jpn-button="'+jpn+'"><span class="dashicons dashicons-plus-alt"></span></a><a class="jpn-hidden-button acf-button" href="#" data-event="add-row" data-jpn-button="'+jpn+'"></a></div></div>');
+                $(this).prepend('<div class="jpn-acf-tabs" id="jpn-acf-tabs-'+jpn+'"><div class="nav"><ul id="nav_'+jpn+'"></ul></div><div class="add"><ul id="add_'+jpn+'"><li><a class="jpn-tab-button acf-button" href="#" data-event="add-row" data-jpn-button="'+jpn+'"><span class="dashicons dashicons-plus-alt"></span></a></li><li><div class="jpn-tab-hover"><a href="#" class="jpn-remove-all" data-jpn-block="'+jpn+'">ALL ROWS</a></div><a class="jpn-tab-button jpn-remove-row" href="#" data-jpn-button="'+jpn+'"><span class="dashicons dashicons-trash"></span></a></li></ul><a class="jpn-hidden-button acf-button" href="#" data-event="add-row" data-jpn-button="'+jpn+'"></a></div></div>');
 
                 // For every repeater row in this container...
                 var rowArray = new Array(), idArray = new Array(), height = 0, index = 0;
@@ -178,7 +178,7 @@ jQuery(document).ready(function ($) {
                     
                     //$('[data-id="'+id+'"] > .acf-row-handle.order').css('top',height+'px');
                     //$('[data-id="'+id+'"] > .acf-row-handle.order > span').text(text+num);
-                    height = height + 37; index = index + 1;
+                    height = height + 37 + 37; index = index + 1;
                 });
                 
                 $( '#nav_'+jpn ).addClass('jpn-sortable').sortable();
@@ -221,15 +221,31 @@ jQuery(document).ready(function ($) {
                 clone = $('tr[data-jpn-tab-id="'+tabID+'"]').clone(),
                 parent = false;
             
+            clone[0].classList.add('jpn-cloned');
+            
             if ($('[data-jpn="'+block+'"]').parents('.jpn-tabs-activated').length >= 1) {
                 var pID = $('[data-jpn="'+block+'"]').parent().closest('.jpn-tabs-activated').attr('data-jpn'),
                     tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav > ul > li > .active').attr('data-jpn-tab');
                 parent = [tab, pID];
             }
             
-            console.log(parent);
+            $('tr[data-id="'+newID+'"]').remove();
+            clone.insertAfter($('div[data-jpn="'+block+'"] > div > table > tbody > tr:nth-last-child(2)'));
             
-            newRow.html(html);
+            function replaceClonedValue(type, oldvalue, newvalue) {
+                $('tr.jpn-cloned ['+type+' *= "'+oldvalue+'"]').each(function(){
+                    var value = $(this).attr(type);
+                    $(this).attr(type, value.replace(oldvalue, newvalue));
+                });
+            }
+            
+            var oldClone = $('tr.jpn-cloned').attr('data-jpn-tab-id');
+            $('tr.jpn-cloned').attr('data-jpn-tab-id', oldClone.replace(oldID, newID));
+            replaceClonedValue('for', '-'+oldID+'-field_', '-'+newID+'-field_');
+            replaceClonedValue('id', '-'+oldID+'-field_', '-'+newID+'-field_');
+            replaceClonedValue('name', '['+oldID+'][field_', '['+newID+'][field_');
+            
+            $('tr.jpn-cloned').removeClass('jpn-cloned');
             
             setTimeout(function(){ jpn_acf_tabs(block, 'last', parent); }, 100);
         });
@@ -271,6 +287,29 @@ jQuery(document).ready(function ($) {
                     tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav').find('.active').attr('data-jpn-tab'),
                     parent = [tab, pID];
             } else { var parent = false; }
+            
+            setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 550);
+        });
+
+        $(document).on('click', 'a.jpn-remove-row', function(e) {
+            e.preventDefault();            
+            var id = $(this).attr('data-jpn-button');            
+            $('[data-jpn="'+id+'"] > div > table > tbody > tr.acf-row.active > td.acf-row-handle.remove > a.jpn-tab-button').click();
+        });
+
+        $(document).on('click', 'a.jpn-remove-all', function(e) {
+            e.preventDefault();            
+            var id = $(this).attr('data-jpn-block');  
+            
+            if ($('[data-jpn="'+id+'"]').parents('.jpn-tabs-activated').length >= 1) {
+                var pID = $('[data-jpn="'+id+'"]').parent().closest('.jpn-tabs-activated').attr('data-jpn'),
+                    tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav').find('.active').attr('data-jpn-tab'),
+                    parent = [tab, pID];
+            } else { var parent = false; }
+            
+            $('[data-jpn="'+id+'"] > div > table > tbody > tr.acf-row:not(.acf-clone)').each(function(){
+                $(this).remove();
+            });
             
             setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 550);
         });
