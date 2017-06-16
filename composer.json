@@ -14,7 +14,7 @@
   "type": "wordpress-plugin",
   "require": {
     "php": ">=5.3.2",
-    "acf pro": ">=5.5.12",
+    "acf-pro": ">=5.5.12",
     "composer/installers": "v1.0.6"
   }
 }
