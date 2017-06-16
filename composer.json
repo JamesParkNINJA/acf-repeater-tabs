@@ -1,0 +1,20 @@
+{
+  "name": "jamesparkninja/acf-repeater-tabs",
+  "description": "A tabbed-view extension to Advanced Custom Field PRO's repeater fields",
+  "keywords": ["acf", , "repeater field", "tabs", "plugin", "jamesparkninja"],
+  "homepage": "https://github.com/JamesParkNINJA/acf-repeater-tabs",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "James Park",
+      "email": "design@jamespark.ninja",
+      "homepage": "http://jamespark.ninja"
+    }
+  ],
+  "type": "wordpress-plugin",
+  "require": {
+    "php": ">=5.3.2",
+    "acf pro": ">=5.5.12",
+    "composer/installers": "v1.0.6"
+  }
+}
