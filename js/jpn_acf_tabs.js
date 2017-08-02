@@ -14,7 +14,7 @@
 !function(e){jQuery.fn.clone=function(){for(var t=e.apply(this,arguments),a=this.find("textarea").add(this.filter("textarea")),n=t.find("textarea").add(t.filter("textarea")),r=this.find("select").add(this.filter("select")),l=t.find("select").add(t.filter("select")),d=0,i=a.length;i>d;++d)$(n[d]).val($(a[d]).val());for(var d=0,i=r.length;i>d;++d)l[d].selectedIndex=r[d].selectedIndex;return t}}(jQuery.fn.clone);
 
 /*
- * ACF Pro - Repeater Tabs
+ * ACF Pro - Repeater Tabs - v3.7.1
  */
 
 (function () {
