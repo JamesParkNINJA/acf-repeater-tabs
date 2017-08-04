@@ -14,7 +14,7 @@
 !function(e){jQuery.fn.clone=function(){for(var t=e.apply(this,arguments),a=this.find("textarea").add(this.filter("textarea")),n=t.find("textarea").add(t.filter("textarea")),r=this.find("select").add(this.filter("select")),l=t.find("select").add(t.filter("select")),d=0,i=a.length;i>d;++d)$(n[d]).val($(a[d]).val());for(var d=0,i=r.length;i>d;++d)l[d].selectedIndex=r[d].selectedIndex;return t}}(jQuery.fn.clone);
 
 /*
- * ACF Pro - Repeater Tabs - v3.7.1
+ * ACF Pro - Repeater Tabs
  */
 
 (function () {
@@ -57,11 +57,13 @@ jQuery(document).ready(function ($) {
         function jpn_deactivate(id) {
             $('[data-jpn="'+id+'"] > .acf-repeater > table > tbody > tr.acf-row.active').removeClass('active');
             $('[data-jpn="'+id+'"] > .jpn-acf-tabs > .nav > ul > li > .jpn-acf-tab.active').removeClass('active');
+            $('[data-jpn="'+id+'"] > .jpn-acf-tabs > .nav > ul > li.active').removeClass('active');
         }
 
         // Activates the selected tab within the selected data attribute container
         function jpn_activate(el, id) {
             el.addClass('active');
+            el.parent('li').addClass('active');
             $('[data-jpn-tab-id="'+id+'"]').addClass('active');
         }
 
@@ -163,13 +165,15 @@ jQuery(document).ready(function ($) {
                     var num = index + 1;
                     
                     // If the function is passed through with "last" it activates the new row, rather than the first, by default
+                    console.log(parent);
                     if (newrow == 'last' && jpn == add) { 
                         var activeNum = tabCount; 
-                    } else if (parent && parent[1] == jpn && parent[0] == tabID) {
+                    } else if (parent && parent[0] == tabID) {
                         var activeNum = num;
                     } else {
                         var activeNum = 1; 
                     }
+                    //console.log(activeNum);
                     
                     $(this).attr('data-jpn-index', index);
                         
@@ -178,7 +182,7 @@ jQuery(document).ready(function ($) {
                     } else { var css = ''; }
 
                     // Adds the Row's tab link to the empty tab container
-                    $('[data-jpn="'+jpn+'"] > .jpn-acf-tabs > .nav > ul').append('<li data-jpn-index="'+index+'" data-jpn-tab-div="'+tabID+'" class="jpn-acf-tab-div"><div class="jpn-tab-hover"><a href="#" class="jpn-tab-copy" data-jpn-tab-id="'+tabID+'" data-jpn-num="'+index+'"><span class="hide-h">COPY </span><span class="dashicons dashicons-clipboard"></span></a></div><a href="'+tabID+'" class="jpn-acf-tab'+css+'" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'"><span>'+num+'</span></a></li>');
+                    $('[data-jpn="'+jpn+'"] > .jpn-acf-tabs > .nav > ul').append('<li data-jpn-index="'+index+'" data-jpn-tab-div="'+tabID+'" class="jpn-acf-tab-div'+css+'"><div class="jpn-tab-hover"><a href="#" class="jpn-tab-copy" data-jpn-tab-id="'+tabID+'" data-jpn-num="'+index+'"><span class="hide-h">COPY </span><span class="dashicons dashicons-clipboard"></span></a></div><a href="'+tabID+'" class="jpn-acf-tab'+css+'" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'"><span>'+num+'</span></a></li>');
                     
                     /* <a href="#" class="jpn-move" data-jpn-dir="up" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">&#9652;</a><a href="#" class="jpn-move" data-jpn-dir="down" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">&#9662;</a> */
                     
@@ -261,8 +265,8 @@ jQuery(document).ready(function ($) {
             var id = $(this).attr('data-jpn-button'), parent = false;
             
             if ($('[data-jpn="'+id+'"]').parents('.jpn-tabs-activated').length >= 1) {
-                var pID = $('[data-jpn="'+id+'"]').parent().closest('.jpn-tabs-activated').attr('data-jpn'),
-                    tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav').find('.active').attr('data-jpn-tab');
+                var pID = $('[data-jpn="'+id+'"]').parent().closest('div.jpn-tabs-activated').attr('data-jpn'),
+                    tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav > ul > li > a.active').attr('data-jpn-tab');
                 parent = [tab, pID];
             }
             
