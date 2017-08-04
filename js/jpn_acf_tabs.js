@@ -165,7 +165,6 @@ jQuery(document).ready(function ($) {
                     var num = index + 1;
                     
                     // If the function is passed through with "last" it activates the new row, rather than the first, by default
-                    console.log(parent);
                     if (newrow == 'last' && jpn == add) { 
                         var activeNum = tabCount; 
                     } else if (parent && parent[0] == tabID) {
@@ -173,7 +172,6 @@ jQuery(document).ready(function ($) {
                     } else {
                         var activeNum = 1; 
                     }
-                    //console.log(activeNum);
                     
                     $(this).attr('data-jpn-index', index);
                         
