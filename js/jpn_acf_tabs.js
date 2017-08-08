@@ -11,7 +11,7 @@
  * Textarea and select clone() bug workaround | Spencer Tipping
  * Licensed under the terms of the MIT source code license
  */
-!function(e){jQuery.fn.clone=function(){for(var t=e.apply(this,arguments),a=this.find("textarea").add(this.filter("textarea")),n=t.find("textarea").add(t.filter("textarea")),r=this.find("select").add(this.filter("select")),l=t.find("select").add(t.filter("select")),d=0,i=a.length;i>d;++d)$(n[d]).val($(a[d]).val());for(var d=0,i=r.length;i>d;++d)l[d].selectedIndex=r[d].selectedIndex;return t}}(jQuery.fn.clone);
+!function(e){jQuery.fn.clone=function(){for(var t=e.apply(this,arguments),a=this.find("textarea").add(this.filter("textarea")),n=t.find("textarea").add(t.filter("textarea")),r=this.find("select").add(this.filter("select")),l=t.find("select").add(t.filter("select")),d=0,i=a.length;i>d;++d)jQuery(n[d]).val(jQuery(a[d]).val());for(var d=0,i=r.length;i>d;++d)l[d].selectedIndex=r[d].selectedIndex;return t}}(jQuery.fn.clone);
 
 /*
  * ACF Pro - Repeater Tabs
@@ -49,6 +49,9 @@
 })(jQuery);
 
 jQuery(document).ready(function ($) {   
+    
+    var jpn_confirm_delete = false,
+        acf_version = parseFloat(jpn_acf_tabs_args.acf_version);
     
     // Double checks the loaded admin page has any ACF Repeaters with the Block style selected
     if ($('.jpn-tabs-activated > .acf-repeater').length > 0) { 
@@ -268,6 +271,10 @@ jQuery(document).ready(function ($) {
                 parent = [tab, pID];
             }
             
+            if ($('[data-jpn="'+id+'"] > .acf-repeater').hasClass('-empty')) {
+                $('[data-jpn="'+id+'"] > .acf-repeater').removeClass('-empty');
+            }
+            
             setTimeout(function(){ jpn_acf_tabs(id, 'last', parent); }, 100);
         });
         
@@ -290,19 +297,36 @@ jQuery(document).ready(function ($) {
         $(document).on('click', '.jpn-tabs-activated a[data-event="remove-row"].jpn-tab-button', function(e) {
             // Regenerates tabs when a row is removed
             var id = $(this).attr('data-jpn-button');
-            if ($('[data-jpn="'+id+'"]').parents('.jpn-tabs-activated').length >= 1) {
-                var pID = $('[data-jpn="'+id+'"]').parent().closest('.jpn-tabs-activated').attr('data-jpn'),
-                    tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav').find('.active').attr('data-jpn-tab'),
-                    parent = [tab, pID];
-            } else { var parent = false; }
-            
-            setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 550);
+            if (acf_version < 5.6) {
+                if ($('[data-jpn="'+id+'"]').parents('.jpn-tabs-activated').length >= 1) {
+                    var pID = $('[data-jpn="'+id+'"]').parent().closest('div.jpn-tabs-activated').attr('data-jpn'),
+                        tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav > ul > li > a.active').attr('data-jpn-tab'),
+                        parent = [tab, pID];
+                } else { var parent = false; }
+
+                setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 550);
+            } else {
+                jpn_confirm_delete = id;
+            }
+        });
+        
+        // This is so hacky, but it seems to be the only way to jump in to this click event before the modal is deleted
+        $(document).on('mousedown', 'a.acf-confirm-y', function(e) {
+            if (jpn_confirm_delete) {
+                if ($('[data-jpn="'+jpn_confirm_delete+'"]').parents('.jpn-tabs-activated').length >= 1) {
+                    var pID = $('[data-jpn="'+jpn_confirm_delete+'"]').parent().closest('div.jpn-tabs-activated').attr('data-jpn'),
+                        tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav > ul > li > a.active').attr('data-jpn-tab'),
+                        parent = [tab, pID];
+                } else { var parent = false; }
+                
+                setTimeout(function(){ jpn_acf_tabs(jpn_confirm_delete, false, parent); }, 650);
+            }
         });
 
         $(document).on('click', 'a.jpn-remove-row', function(e) {
             e.preventDefault();            
             var id = $(this).attr('data-jpn-button');            
-            $('[data-jpn="'+id+'"] > div > table > tbody > tr.acf-row.active > td.acf-row-handle.remove > a.jpn-tab-button').click();
+            //$('[data-jpn="'+id+'"] > div > table > tbody > tr.acf-row.active > td.acf-row-handle.remove > a.jpn-tab-button').click();
         });
 
         $(document).on('click', 'a.jpn-remove-all', function(e) {
@@ -319,7 +343,7 @@ jQuery(document).ready(function ($) {
                 $(this).remove();
             });
             
-            $('[data-jpn="'+id+'"] > div.acf-repeater').slideUp('fast',function(){$(this).addClass('.-empty');});
+            $('[data-jpn="'+id+'"] > div.acf-repeater').addClass('-empty');
             
             setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 550);
         });

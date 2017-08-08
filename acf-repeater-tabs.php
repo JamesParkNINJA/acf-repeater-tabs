@@ -3,7 +3,7 @@
 Plugin Name: ACF - Repeater Field Tabs
 Plugin URI:  http://jamespark.ninja
 Description: Adds "tab" functionality to ACF Repeater Fields
-Version:     3.7.2
+Version:     3.7.3
 Author:      JamesPark.ninja
 Author URI:  http://jamespark.ninja/
 License:     GPL2
@@ -18,9 +18,25 @@ function jpn_acf_tabs_admin_enqueue_scripts( $hook_suffix ) {
     // Enqueues jQuery
     wp_enqueue_script('jquery');
     
+    $plugins = get_plugins();
+    $acf_version = false;
+    foreach ($plugins as $plugin) {
+        if ($plugin['Name'] == 'Advanced Custom Fields PRO') {
+            $acf_version = $plugin['Version'];
+        }
+    }
+    
     wp_enqueue_style( 'jpn_acf_tabs_styles', plugins_url('css/jpn_acf_tabs.css', __FILE__ ), array(), '1.0.0', false);
     wp_enqueue_script( 'jpn_acf_tabs_scripts', plugins_url('js/jpn_acf_tabs.js', __FILE__ ), array(), '1.0.0', false);
     wp_enqueue_script( 'jQueryUI', 'https://code.jquery.com/ui/1.12.1/jquery-ui.js', array(), '1.12.1', false);
+    
+    if ($acf_version) {
+        $jpn_acf_tabs_args = array(
+            'acf_version' => $acf_version
+        );
+        
+        wp_localize_script( 'jpn_acf_tabs_scripts', 'jpn_acf_tabs_args', $jpn_acf_tabs_args );
+    }
 }
 
 add_action('acf/render_field_settings/type=repeater', 'jpn_acf_tabs_settings');
