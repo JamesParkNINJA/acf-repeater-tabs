@@ -181,9 +181,12 @@ jQuery(document).ready(function ($) {
                     if (num == activeNum) { 
                         var css = ' active'; jpn_deactivate(jpn); $(this).addClass('active'); 
                     } else { var css = ''; }
+                    
+                    var collapsed = '';
+                    if ($(this).hasClass('-collapsed')) { collapsed = '-collapsed'; }
 
                     // Adds the Row's tab link to the empty tab container
-                    $('[data-jpn="'+jpn+'"] > .jpn-acf-tabs > .nav > ul').append('<li data-jpn-index="'+index+'" data-jpn-tab-div="'+tabID+'" class="jpn-acf-tab-div'+css+'"><div class="jpn-tab-hover"><a href="#" class="jpn-tab-copy" data-jpn-tab-id="'+tabID+'" data-jpn-num="'+index+'"><span class="hide-h">COPY </span><span class="dashicons dashicons-clipboard"></span></a></div><a href="'+tabID+'" class="jpn-acf-tab'+css+'" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'"><span>'+num+'</span></a></li>');
+                    $('[data-jpn="'+jpn+'"] > .jpn-acf-tabs > .nav > ul').append('<li data-jpn-index="'+index+'" data-jpn-tab-div="'+tabID+'" class="jpn-acf-tab-div'+css+'"><div class="jpn-tab-hover"><a href="#" class="jpn-tab-copy" data-jpn-tab-id="'+tabID+'" data-jpn-num="'+index+'"><span class="hide-h">COPY </span><span class="dashicons dashicons-clipboard"></span></a></div><a href="'+tabID+'" class="jpn-acf-tab'+css+' '+collapsed+'" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'"><span>'+num+'</span></a></li>');
                     
                     /* <a href="#" class="jpn-move" data-jpn-dir="up" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">&#9652;</a><a href="#" class="jpn-move" data-jpn-dir="down" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">&#9662;</a> */
                     
@@ -206,6 +209,9 @@ jQuery(document).ready(function ($) {
             if (!active) {
                 jpn_deactivate(jpn); // Hide previous active tab
                 jpn_activate($(this), id); // Make this tab active
+            } else {
+                $(this).toggleClass('-collapsed');
+                $('tr[data-jpn-tab-id="'+id+'"] > .acf-row-handle > .-collapse').click();
             }
         });
         

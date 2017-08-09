@@ -166,6 +166,37 @@
     background:#00a0d2;
 }
 
+.jpn-tabs-activated > .jpn-acf-tabs > .nav > ul > li > .jpn-acf-tab.active:after {
+    content:'\f077';
+    font-family:'FontAwesome';
+    width:20px;
+    height:20px;
+    display:block;
+    opacity:0;
+    background:#cccccc;
+    text-align:center;
+    color:#666666;
+    transition:0.3s all;
+    transform:rotate(0deg);
+    position:absolute;
+    z-index:10;
+    border-radius:50%;
+    bottom:4px;
+    left:12px;
+    line-height:20px;
+    box-sizing: border-box;
+}
+
+.jpn-tabs-activated > .jpn-acf-tabs > .nav > ul > li > .jpn-acf-tab.active:not(.-collapsed):hover:after {
+    transform:rotate(0deg);
+    opacity:1;
+}
+
+.jpn-tabs-activated > .jpn-acf-tabs > .nav > ul > li > .jpn-acf-tab.active.-collapsed:hover:after {
+    transform:rotate(180deg);
+    opacity:1;
+}
+
 .jpn-tabs-activated > .jpn-acf-tabs > .add > ul > li > .acf-button {
     color:#ffffff;
     background:#1d6977;

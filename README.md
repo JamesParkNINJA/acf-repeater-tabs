@@ -1,5 +1,5 @@
 # acf-repeater-tabs
-## v3.7.3
+## v3.8
 A tabbed-view extension to Advanced Custom Field PRO's repeater fields
 
 Stable compatibility: ACF PRO v5.5.12+
@@ -25,6 +25,8 @@ Hover for half a second on a tab and you will be given the option to "Copy" the 
 Hover for half a second on the trash can icon, and you will be given the option to remove "ALL ROWS" in the current repeater list with one click.
 
 This plugin works best with the **"Block"** view, however it does work with all three styles (Table, Block, Row).
+
+Updated to work with collapsed rows.
 
 Added extra compatibility for v5.6 (BETA)
 
