@@ -48,14 +48,14 @@
     };
 })(jQuery);
 
-jQuery(document).ready(function ($) {   
-    
+jQuery(document).ready(function ($) {
+
     var jpn_confirm_delete = false,
         acf_version = parseFloat(jpn_acf_tabs_args.acf_version);
-    
+
     // Double checks the loaded admin page has any ACF Repeaters with the Block style selected
-    if ($('.jpn-tabs-activated > .acf-repeater').length > 0) { 
-    
+    if ($('.jpn-tabs-activated > .acf-repeater').length > 0) {
+
         // Deactivates all of the active tabs within the selected data attribute container
         function jpn_deactivate(id) {
             $('[data-jpn="'+id+'"] > .acf-repeater > table > tbody > tr.acf-row.active').removeClass('active');
@@ -72,7 +72,7 @@ jQuery(document).ready(function ($) {
 
         // Main function
         function jpn_acf_tabs(add = false, newrow = false, parent = false) {
-            
+
             // Removes the existing tabs so it can regenerate them
             $(document).find('.jpn-acf-tabs').remove();
             $( '.jpn-sortable' ).each(function(){
@@ -80,11 +80,11 @@ jQuery(document).ready(function ($) {
             });
 
             // Adds the activation class to the parent block
-            
+
             var blockArray = new Array();
 
             $('.jpn-tabs-activated').each(function() {
-                
+
                 // Initialises the unique id
                 var isUnique = false;
                 if ($(this).attr('data-jpn') && $(this).attr('data-jpn') != '') {
@@ -93,7 +93,7 @@ jQuery(document).ready(function ($) {
                         blockArray.push(jpn);
                         isUnique = true;
                     }
-                }                
+                }
                 if (isUnique == false) {
                     // Applies the count as a unique data attribute to both the container and the "Add Row" button
                     var jpn = jpnuniqid('block_');
@@ -103,14 +103,14 @@ jQuery(document).ready(function ($) {
 
                 var repeaterBlock = '[data-jpn="'+jpn+'"] > .acf-repeater';
                 if ($(repeaterBlock).hasClass('-block')) {
-                    $('[data-jpn="'+jpn+'"] > .acf-repeater > .acf-actions > li > .acf-button.button.button-primary[data-event="add-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn); 
-                    $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr > td.remove > a[data-event="remove-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn); 
+                    $('[data-jpn="'+jpn+'"] > .acf-repeater > .acf-actions > li > .acf-button.button.button-primary[data-event="add-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn);
+                    $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr > td.remove > a[data-event="remove-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn);
                 } else if ($(repeaterBlock).hasClass('-table')) {
-                    $('[data-jpn="'+jpn+'"] > .acf-repeater > .acf-actions > li > .acf-button.button.button-primary[data-event="add-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn); 
+                    $('[data-jpn="'+jpn+'"] > .acf-repeater > .acf-actions > li > .acf-button.button.button-primary[data-event="add-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn);
                     $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr > td.remove > a[data-event="remove-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn);
                 } else if ($(repeaterBlock).hasClass('-row')) {
-                    $('[data-jpn="'+jpn+'"] > .acf-repeater > .acf-actions > li > .acf-button.button.button-primary[data-event="add-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn); 
-                    $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr > td.remove > a[data-event="remove-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn); 
+                    $('[data-jpn="'+jpn+'"] > .acf-repeater > .acf-actions > li > .acf-button.button.button-primary[data-event="add-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn);
+                    $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr > td.remove > a[data-event="remove-row"]').addClass('jpn-tab-button').attr('data-jpn-button',jpn);
                 }
 
                 // | Variables |
@@ -138,10 +138,10 @@ jQuery(document).ready(function ($) {
                     // | Variables |
                     // id: the ACF data ID for the row
                     // num: the ACF row number, which is then parsed as an integer
-                    
+
                     var id = $(this).attr('data-id'),
                         unq = jpnuniqid(id+'_');
-                    
+
                     var jpnUnq = false;
                     if ($(this).attr('data-jpn-tab-id') && $(this).attr('data-jpn-tab-id') != '') {
                         if (!rowArray.includes($(this).attr('data-jpn-tab-id'))) {
@@ -150,13 +150,13 @@ jQuery(document).ready(function ($) {
                             jpnUnq = true;
                         }
                     }
-                    
+
                     if (jpnUnq == false) {
                         var tabID = unq;
                         rowArray.push(tabID);
                         $(this).attr('data-jpn-tab-id', unq);
                     }
-                    
+
                     if (!idArray.includes(id)) {
                         idArray.push(id);
                     } else {
@@ -164,48 +164,48 @@ jQuery(document).ready(function ($) {
                         idArray.push(newID);
                         $(this).attr('data-id', newID);
                     }
-                    
+
                     var num = index + 1;
-                    
+
                     // If the function is passed through with "last" it activates the new row, rather than the first, by default
-                    if (newrow == 'last' && jpn == add) { 
-                        var activeNum = tabCount; 
+                    if (newrow == 'last' && jpn == add) {
+                        var activeNum = tabCount;
                     } else if (parent && parent[0] == tabID) {
                         var activeNum = num;
                     } else {
-                        var activeNum = 1; 
+                        var activeNum = 1;
                     }
-                    
+
                     $(this).attr('data-jpn-index', index);
-                        
-                    if (num == activeNum) { 
-                        var css = ' active'; jpn_deactivate(jpn); $(this).addClass('active'); 
+
+                    if (num == activeNum) {
+                        var css = ' active'; jpn_deactivate(jpn); $(this).addClass('active');
                     } else { var css = ''; }
-                    
+
                     var collapsed = '';
                     if ($(this).hasClass('-collapsed')) { collapsed = '-collapsed'; }
 
                     // Adds the Row's tab link to the empty tab container
                     $('[data-jpn="'+jpn+'"] > .jpn-acf-tabs > .nav > ul').append('<li data-jpn-index="'+index+'" data-jpn-tab-div="'+tabID+'" class="jpn-acf-tab-div'+css+'"><div class="jpn-tab-hover"><a href="#" class="jpn-tab-copy" data-jpn-tab-id="'+tabID+'" data-jpn-num="'+index+'"><span class="hide-h">COPY </span><span class="dashicons dashicons-clipboard"></span></a></div><a href="'+tabID+'" class="jpn-acf-tab'+css+' '+collapsed+'" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'"><span>'+num+'</span></a></li>');
-                    
+
                     /* <a href="#" class="jpn-move" data-jpn-dir="up" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">&#9652;</a><a href="#" class="jpn-move" data-jpn-dir="down" data-jpn-nav="'+jpn+'" data-jpn-tab="'+tabID+'">&#9662;</a> */
-                    
+
                     //$('[data-id="'+id+'"] > .acf-row-handle.order').css('top',height+'px');
                     //$('[data-id="'+id+'"] > .acf-row-handle.order > span').text(text+num);
                     height = height + 37 + 37; index = index + 1;
                 });
-                
+
                 $( '#nav_'+jpn ).addClass('jpn-sortable').sortable();
             });
         }
 
         // On tab link click...
         $(document).on('click','.jpn-acf-tab', function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
             var id = $(this).attr('href'),
-                active = ($(this).hasClass('active') ? true : false), 
+                active = ($(this).hasClass('active') ? true : false),
                 jpn = $(this).attr('data-jpn-nav');
-            
+
             if (!active) {
                 jpn_deactivate(jpn); // Hide previous active tab
                 jpn_activate($(this), id); // Make this tab active
@@ -214,90 +214,91 @@ jQuery(document).ready(function ($) {
                 $('tr[data-jpn-tab-id="'+id+'"] > .acf-row-handle > .-collapse').click();
             }
         });
-        
+
         function escapeRegExp(str) {
           return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
         }
-        
+
         $(document).on('click', '.jpn-tabs-activated .jpn-tab-copy', function(e){
             e.preventDefault();
-            
+
             var block = $(this).closest('.jpn-tabs-activated').attr('data-jpn');
-            
+
             $('div[data-jpn="'+block+'"] > .jpn-acf-tabs > .add > .jpn-hidden-button').click();
-            
+
             var newRow = $('div[data-jpn="'+block+'"] > div > table > tbody > tr:nth-last-child(2)'),
                 newID = $('div[data-jpn="'+block+'"] > div > table > tbody > tr:nth-last-child(2)').attr('data-id'),
                 tabID = $(this).attr('data-jpn-tab-id'),
-                oldID = $('tr[data-jpn-tab-id="'+tabID+'"]').attr('data-id'), 
-                num = parseInt($(this).attr('data-jpn-num'), 10), 
+                oldID = $('tr[data-jpn-tab-id="'+tabID+'"]').attr('data-id'),
+                num = parseInt($(this).attr('data-jpn-num'), 10),
                 count = $('div[data-jpn="'+block+'"] > div > table > tbody > tr[data-jpn-tab-id]').length,
                 html = $('tr[data-jpn-tab-id="'+tabID+'"]').html(),
-                str1 = new RegExp("-"+oldID+"-field_", "g"), str2 = new RegExp("\\["+oldID+"\\]", "g"), 
+                str1 = new RegExp("-"+oldID+"-field_", "g"), str2 = new RegExp("\\["+oldID+"\\]", "g"),
                 html = html.replace(str1, '-'+newID+'-field_').replace(str2, '['+newID+']'),
                 clone = $('tr[data-jpn-tab-id="'+tabID+'"]').clone(),
                 parent = false;
-            
+
             clone[0].classList.add('jpn-cloned');
-            
+
             if ($('[data-jpn="'+block+'"]').parents('.jpn-tabs-activated').length >= 1) {
                 var pID = $('[data-jpn="'+block+'"]').parent().closest('.jpn-tabs-activated').attr('data-jpn'),
                     tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav > ul > li > .active').attr('data-jpn-tab');
                 parent = [tab, pID];
             }
-            
+
             $('tr[data-id="'+newID+'"]').remove();
             clone.insertAfter($('div[data-jpn="'+block+'"] > div > table > tbody > tr:nth-last-child(2)'));
-            
+
             function replaceClonedValue(type, oldvalue, newvalue) {
-                $('tr.jpn-cloned ['+type+' *= "'+oldvalue+'"]').each(function(){
+                $('tr.jpn-cloned ['+type+'*="'+oldvalue+'"]').each(function(){
                     var value = $(this).attr(type);
                     $(this).attr(type, value.replace(oldvalue, newvalue));
                 });
             }
-            
+
             var oldClone = $('tr.jpn-cloned').attr('data-jpn-tab-id');
             $('tr.jpn-cloned').attr('data-jpn-tab-id', oldClone.replace(oldID, newID));
-            replaceClonedValue('for', '-'+oldID+'-field_', '-'+newID+'-field_');
-            replaceClonedValue('id', '-'+oldID+'-field_', '-'+newID+'-field_');
-            replaceClonedValue('name', '['+oldID+'][field_', '['+newID+'][field_');
-            
+
+            replaceClonedValue('for', '-'+oldID+'-', '-'+newID+'-');
+            replaceClonedValue('id', '-'+oldID+'-', '-'+newID+'-');
+            replaceClonedValue('name', '['+oldID+']', '['+newID+']');
+
             $('tr.jpn-cloned').removeClass('jpn-cloned');
-            
+
             setTimeout(function(){ jpn_acf_tabs(block, 'last', parent); }, 100);
         });
 
         $(document).on('click', '.jpn-tabs-activated a[data-event="add-row"].jpn-tab-button', function(e) {
             e.preventDefault();
             var id = $(this).attr('data-jpn-button'), parent = false;
-            
+
             if ($('[data-jpn="'+id+'"]').parents('.jpn-tabs-activated').length >= 1) {
                 var pID = $('[data-jpn="'+id+'"]').parent().closest('div.jpn-tabs-activated').attr('data-jpn'),
                     tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav > ul > li > a.active').attr('data-jpn-tab');
                 parent = [tab, pID];
             }
-            
+
             if ($('[data-jpn="'+id+'"] > .acf-repeater').hasClass('-empty')) {
                 $('[data-jpn="'+id+'"] > .acf-repeater').removeClass('-empty');
             }
-            
+
             setTimeout(function(){ jpn_acf_tabs(id, 'last', parent); }, 100);
         });
-        
+
         $(document).on('mousewheel', '.jpn-tabs-activated.jpn-horizontal > .jpn-acf-tabs > .nav', function(e) {
             e.preventDefault();
             if (!$(this).attr('data-scroll')) { $(this).attr('data-scroll', 0); }
-            var scroll = +$(this).attr('data-scroll'), 
+            var scroll = +$(this).attr('data-scroll'),
                 delta = ~e.deltaY+1,
                 dir = scroll + delta,
                 navW = +$(this).width(),
                 ulW = $(this).find('ul li').length * 45;
-            
-            if (((dir*45) <= (ulW - navW)) && dir >= 0) { 
-                $(this).scrollLeft(dir * 45); 
-                $(this).attr('data-scroll',dir); 
+
+            if (((dir*45) <= (ulW - navW)) && dir >= 0) {
+                $(this).scrollLeft(dir * 45);
+                $(this).attr('data-scroll',dir);
             }
-            
+
         });
 
         $(document).on('click', '.jpn-tabs-activated a[data-event="remove-row"].jpn-tab-button', function(e) {
@@ -315,7 +316,7 @@ jQuery(document).ready(function ($) {
                 jpn_confirm_delete = id;
             }
         });
-        
+
         // This is so hacky, but it seems to be the only way to jump in to this click event before the modal is deleted
         $(document).on('mousedown', 'a.acf-confirm-y', function(e) {
             if (jpn_confirm_delete) {
@@ -324,75 +325,75 @@ jQuery(document).ready(function ($) {
                         tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav > ul > li > a.active').attr('data-jpn-tab'),
                         parent = [tab, pID];
                 } else { var parent = false; }
-                
+
                 setTimeout(function(){ jpn_acf_tabs(jpn_confirm_delete, false, parent); }, 650);
             }
         });
 
         $(document).on('click', 'a.jpn-remove-row', function(e) {
-            e.preventDefault();            
-            var id = $(this).attr('data-jpn-button');            
+            e.preventDefault();
+            var id = $(this).attr('data-jpn-button');
             //$('[data-jpn="'+id+'"] > div > table > tbody > tr.acf-row.active > td.acf-row-handle.remove > a.jpn-tab-button').click();
         });
 
         $(document).on('click', 'a.jpn-remove-all', function(e) {
-            e.preventDefault();            
-            var id = $(this).attr('data-jpn-block');  
-            
+            e.preventDefault();
+            var id = $(this).attr('data-jpn-block');
+
             if ($('[data-jpn="'+id+'"]').parents('.jpn-tabs-activated').length >= 1) {
                 var pID = $('[data-jpn="'+id+'"]').parent().closest('.jpn-tabs-activated').attr('data-jpn'),
                     tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav').find('.active').attr('data-jpn-tab'),
                     parent = [tab, pID];
             } else { var parent = false; }
-            
+
             $('[data-jpn="'+id+'"] > div > table > tbody > tr.acf-row:not(.acf-clone)').each(function(){
                 $(this).remove();
             });
-            
+
             $('[data-jpn="'+id+'"] > div.acf-repeater').addClass('-empty');
-            
+
             setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 550);
         });
-        
+
         $(document).on('click', '.jpn-move', function(e) {
             e.preventDefault();
             var jpn = $(this).attr('data-jpn-nav'), dir = $(this).attr('data-jpn-dir'), id = $(this).attr('data-jpn-tab');
-            
-            var row = $('tr[data-jpn-tab-id="'+id+'"]');            
-            if (dir == 'up') { 
-                row.prev().insertAfter(row); 
-            } else { 
-                row.next().insertBefore(row); 
+
+            var row = $('tr[data-jpn-tab-id="'+id+'"]');
+            if (dir == 'up') {
+                row.prev().insertAfter(row);
+            } else {
+                row.next().insertBefore(row);
             }
-            
+
             if ($('[data-jpn="'+jpn+'"]').parents('.jpn-tabs-activated').length >= 1) {
                 var pID = $('[data-jpn="'+jpn+'"]').parent().closest('.jpn-tabs-activated').attr('data-jpn'),
                     tab = $('[data-jpn="'+pID+'"] > .jpn-acf-tabs > .nav').find('.active').attr('data-jpn-tab'),
                     parent = [tab, pID];
-                
+
                 setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 100);
             } else {
                 setTimeout(function(){ jpn_acf_tabs(id); }, 100);
             }
-        }); 
-        
+        });
+
         $(document).on('sortstop', '.jpn-sortable', function(event, ui) {
-            var jpn = ui.item.find('a.jpn-acf-tab').attr('data-jpn-nav'), 
-                id = ui.item.find('a.jpn-acf-tab').attr('data-jpn-tab'), 
+            var jpn = ui.item.find('a.jpn-acf-tab').attr('data-jpn-nav'),
+                id = ui.item.find('a.jpn-acf-tab').attr('data-jpn-tab'),
                 ul = ui.item.parent('ul'),
                 index = ui.item.index(),
                 trIndex = ui.item.attr('data-jpn-index'),
                 diff = (index > trIndex ? (index - trIndex) : (trIndex - index)),
-                newrow = $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr[data-jpn-index="'+index+'"]').get(0), 
-                parent = $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody').get(0), 
+                newrow = $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr[data-jpn-index="'+index+'"]').get(0),
+                parent = $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody').get(0),
                 row = $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr[data-jpn-index="'+trIndex+'"]');
-            
+
             for (var i=0; i<=(diff); i++) {
                 if (i < diff) {
-                    if (trIndex > index) { 
+                    if (trIndex > index) {
                         row.prev().insertAfter(row);
-                    } else { 
-                        row.next().insertBefore(row); 
+                    } else {
+                        row.next().insertBefore(row);
                     }
                 } else {
                     ul.find('li').each(function(){
@@ -406,8 +407,8 @@ jQuery(document).ready(function ($) {
                     });
                 }
             }
-            
-        });      
+
+        });
 
         // Delayed initialisation to prevent loading before ACF
         acf.add_action('ready', function( $el ){ jpn_acf_tabs(); });
