@@ -407,7 +407,7 @@ jQuery(document).ready(function ($) {
                     });
                 }
             }
-
+            $('[data-jpn="'+jpn+'"] > .acf-repeater > table > tbody > tr[data-id="acfcloneindex"]').removeAttr('data-jpn-index');
         });
 
         // Delayed initialisation to prevent loading before ACF
