@@ -61,8 +61,10 @@ add_filter('acf/render_field/type=repeater', 'jpn_acf_tabs_render_pre', 9, 1);
 function jpn_acf_tabs_render_pre( $field ) {
 	
 	// bail early if no 'admin_only' setting
-	if( $field['jpn-tabs'] == 'horizontal' || $field['jpn-tabs'] == 'vertical' ) {
-        echo '<br><div class="jpn-tabs-activated jpn-'.$field['jpn-tabs'].'">';
+    if( array_key_exists( 'jpn-tabs', $field ) ) {
+        if( $field['jpn-tabs'] == 'horizontal' || $field['jpn-tabs'] == 'vertical' ) {
+            echo '<br><div class="jpn-tabs-activated jpn-'.$field['jpn-tabs'].'">';
+        }
     }
 	
 }
