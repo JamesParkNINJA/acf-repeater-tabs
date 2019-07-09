@@ -62,7 +62,7 @@ function jpn_acf_tabs_render_pre( $field ) {
 	
 	// bail early if no 'admin_only' setting
     if( array_key_exists( 'jpn-tabs', $field ) ) {
-        if( $field['jpn-tabs'] == 'horizontal' || $field['jpn-tabs'] == 'vertical' ) {
+        if( isset($field['jpn-tabs']) && (strcmp($field['jpn-tabs'], 'horizontal')===0 || strcmp($field['jpn-tabs'], 'vertical')===0) ) {
             echo '<br><div class="jpn-tabs-activated jpn-'.$field['jpn-tabs'].'">';
         }
     }
