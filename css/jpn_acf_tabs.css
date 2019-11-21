@@ -400,3 +400,7 @@
 .jpn-tabs-activated > .jpn-acf-tabs > .add > ul > li > .jpn-tab-hover > a:hover > span {
     color:#ffba00;
 }
+
+.jpn-tabs-activated .acf-row-handle {
+    display: none;
+}

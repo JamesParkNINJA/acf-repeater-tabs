@@ -334,6 +334,12 @@ jQuery(document).ready(function ($) {
             e.preventDefault();
             var id = $(this).attr('data-jpn-button');
             //$('[data-jpn="'+id+'"] > div > table > tbody > tr.acf-row.active > td.acf-row-handle.remove > a.jpn-tab-button').click();
+            var active = $('.jpn-acf-tab.active')
+            if (active) {
+                var tabID = active.data("jpn-tab")
+                $('.acf-row[data-jpn-tab-id="'+tabID+'"]').remove()
+            }
+            setTimeout(function(){ jpn_acf_tabs(id, false, parent); }, 550);
         });
 
         $(document).on('click', 'a.jpn-remove-all', function(e) {
