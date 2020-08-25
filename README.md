@@ -2,7 +2,9 @@
 ## v3.8
 A tabbed-view extension to Advanced Custom Field PRO's repeater fields
 
-Stable compatibility: ACF PRO v5.5.12+
+Stable compatibility: ACF PRO v5.5.12, WordPress Classic Editor
+
+## !!!Not Actively Maintained!!!
 
 ## Using the plugin
 
